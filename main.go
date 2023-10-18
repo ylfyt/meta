@@ -1,14 +1,18 @@
 package main
 
-import "net/http"
+import (
+	"net/http"
+
+	"github.com/ylfyt/meta/meta"
+)
 
 func main() {
-	app := New(&Config{
+	app := meta.New(&meta.Config{
 		BaseUrl: "/api",
 	})
 
-	app.Map("GET", "/", func() ResponseDto {
-		return ResponseDto{
+	app.Map("GET", "/", func() meta.ResponseDto {
+		return meta.ResponseDto{
 			Status:  http.StatusOK,
 			Message: "",
 			Success: true,
