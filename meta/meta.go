@@ -48,6 +48,12 @@ func (app *App) Run(port int) {
 		}
 	}
 
+	err := app.setupController()
+	if err != nil {
+		fmt.Println("ERROR", err)
+		panic(err)
+	}
+
 	for _, v := range app.endPoints {
 		for _, mid := range v.Middlewares {
 			err := app.validateMiddleware(mid)

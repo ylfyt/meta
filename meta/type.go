@@ -24,6 +24,7 @@ type App struct {
 	config       *Config
 	endPoints    []EndPoint
 	dependencies map[string]any
+	controllers  []any
 	mids         []middleware
 }
 

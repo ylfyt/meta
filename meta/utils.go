@@ -239,3 +239,23 @@ func (app *App) setup() {
 		app.router.Add(v.Method, v.Path, handlers...)
 	}
 }
+
+func (app *App) setupController() error {
+	for _, c := range app.controllers {
+		method, _ := reflect.TypeOf(c).MethodByName(controller_INIT_FUNC_NAME)
+		params := []reflect.Value{
+			reflect.ValueOf(c),
+		}
+		// Input validation
+		for i := 1; i < method.Type.NumIn(); i++ {
+			if method.Type.In(i).Kind() != reflect.Pointer || app.dependencies[method.Type.In(i).String()] == nil {
+				return fmt.Errorf("arg must be a pointer to dependency services")
+			}
+			params = append(params, reflect.ValueOf(app.dependencies[method.Type.In(i).String()]))
+		}
+
+		endpoints := method.Func.Call(params)[0].Interface().([]EndPoint)
+		app.endPoints = append(app.endPoints, endpoints...)
+	}
+	return nil
+}
