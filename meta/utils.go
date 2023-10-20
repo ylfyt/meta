@@ -151,7 +151,7 @@ func validate(data *reflect.Value) []FieldError {
 }
 
 func sendResponse(c *fiber.Ctx, response ResponseDto) {
-	err := c.JSON(response)
+	err := c.Status(response.Status).JSON(response)
 	if err != nil {
 		fmt.Println("Failed to send response", err)
 	}
