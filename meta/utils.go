@@ -121,7 +121,7 @@ func (app *App) getCallParams(c *fiber.Ctx, refFunc any) ([]reflect.Value, int) 
 	return callParams, structIdx
 }
 
-func validate(data *reflect.Value) []Error {
+func validate(data *reflect.Value) []FieldError {
 	val := validator.New()
 	err := val.Struct(data.Interface())
 	if err == nil {
@@ -132,11 +132,11 @@ func validate(data *reflect.Value) []Error {
 		return nil
 	}
 
-	var validationErrors []Error
+	var validationErrors []FieldError
 
 	for _, err := range err.(validator.ValidationErrors) {
 
-		validationErrors = append(validationErrors, Error{
+		validationErrors = append(validationErrors, FieldError{
 			Field: err.Field(),
 			Tag:   err.ActualTag(),
 			Param: err.Param(),

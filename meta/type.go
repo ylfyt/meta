@@ -27,18 +27,23 @@ type App struct {
 	mids         []middleware
 }
 
-type Error struct {
+type FieldError struct {
 	Field string `json:"field"`
 	Tag   string `json:"tag"`
 	Param string `json:"param"`
 }
 
+type Pager struct {
+	Total int64 `json:"total"`
+	Count int64 `json:"count"`
+	Page  int64 `json:"page"`
+}
+
 type ResponseDto struct {
-	Status  int     `json:"status"`
-	Message string  `json:"message"`
-	Success bool    `json:"success"`
-	Errors  []Error `json:"errors"`
-	Data    any     `json:"data"`
-	Total   int64   `json:"total"`
-	Count   int64   `json:"count"`
+	Status  int          `json:"status"`
+	Message string       `json:"message"`
+	Success bool         `json:"success"`
+	Errors  []FieldError `json:"errors"`
+	Data    any          `json:"data"`
+	Pager   *Pager       `json:"pager"`
 }
