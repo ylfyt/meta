@@ -39,11 +39,17 @@ type Pager struct {
 	Page  int64 `json:"page"`
 }
 
+type ResponseRedirectInfo struct {
+	Status   int
+	Location string
+}
+
 type ResponseDto struct {
-	Status  int          `json:"status"`
-	Message string       `json:"message"`
-	Success bool         `json:"success"`
-	Errors  []FieldError `json:"errors"`
-	Data    any          `json:"data"`
-	Pager   *Pager       `json:"pager"`
+	Status   int                  `json:"status"`
+	Message  string               `json:"message"`
+	Success  bool                 `json:"success"`
+	Errors   []FieldError         `json:"errors"`
+	Data     any                  `json:"data"`
+	Pager    *Pager               `json:"pager"`
+	Redirect ResponseRedirectInfo `json:"-"`
 }

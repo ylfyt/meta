@@ -201,6 +201,12 @@ func (app *App) setup() {
 			// Calling route handler
 			if shouldBeValidateIdx == -1 {
 				response := reflect.ValueOf(fn).Call(params)[0].Interface().(ResponseDto)
+				if response.Redirect.Location != "" {
+					if response.Redirect.Status != 0 {
+						return c.Redirect(response.Redirect.Location, response.Redirect.Status)
+					}
+					return c.Redirect(response.Redirect.Location)
+				}
 				sendResponse(c, response)
 				return nil
 			}
@@ -219,6 +225,12 @@ func (app *App) setup() {
 			}
 			// Calling route handler
 			response := reflect.ValueOf(fn).Call(params)[0].Interface().(ResponseDto)
+			if response.Redirect.Location != "" {
+				if response.Redirect.Status != 0 {
+					return c.Redirect(response.Redirect.Location, response.Redirect.Status)
+				}
+				return c.Redirect(response.Redirect.Location)
+			}
 			sendResponse(c, response)
 			return nil
 		})
